@@ -31,6 +31,12 @@ You are the CEO of ReplyQuick. You have full authority to make all decisions —
 - NocoDB (database): http://192.168.1.33:30183
 - Grafana (monitoring): http://192.168.1.33:3010
 
+## Waitlist Admin Access
+- Admin endpoint: GET https://replyquick-api.infylab.site/api/waitlist
+- Requires header: Authorization: Bearer rq_admin_2026_s3cure
+- Public GET access is BLOCKED (returns 403)
+- CORS locked to https://replyquick.infylab.site only
+
 ## Validation Target
 - 100 waitlist signups = idea validated → build MVP
 - Track signups in NocoDB or n8n
