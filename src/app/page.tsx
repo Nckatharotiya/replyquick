@@ -28,29 +28,17 @@ function WaitlistForm({ location }: { location: string }) {
     setSubmitting(true);
 
     try {
-      // Submit directly to Web3Forms (free, no backend needed)
-      // Replace YOUR_KEY with actual key from https://web3forms.com (takes 10 seconds)
-      const formKey = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "YOUR_KEY";
-
-      if (formKey !== "YOUR_KEY") {
-        await fetch("https://api.web3forms.com/submit", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            access_key: formKey,
-            subject: `🚀 New ReplyQuick Waitlist: ${email}`,
-            email,
-            business_name: businessName || "Not provided",
-            signup_location: location,
-            from_name: "ReplyQuick Waitlist",
-          }),
-        });
-      }
+      const res = await fetch("https://replyquick-api.infylab.site/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, businessName, location }),
+      });
+      if (!res.ok) throw new Error("Failed");
 
       setSubmitted(true);
       toast.success("You're on the list! We'll email you soon.");
     } catch {
-      // Even if Web3Forms fails, show success (we don't want to lose signups)
+      // Still show success to not lose the signup intent
       setSubmitted(true);
       toast.success("You're on the list!");
     } finally {
